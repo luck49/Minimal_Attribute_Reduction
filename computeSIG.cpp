@@ -3,19 +3,19 @@
 using namespace std;
 void computeSIG(class matrix& Sig,const class matrix& DF){
 	 Sig=*(new matrix(3,DF.row));
-	 Sig.mat.row(1)=DF.mat.row(1);//¥Ê¥¢DT Ù–‘–Ú
-	 for(int i=0;i<Sig.row;i++){//º∆À„≥ˆœ÷∆µ¬  
+	 Sig.mat.row(1)=DF.mat.row(1);//Â≠òÂÇ®DTÂ±ûÊÄßÂ∫è
+	 for(int i=0;i<Sig.row;i++){//ËÆ°ÁÆóÂá∫Áé∞È¢ëÁéá 
 	 	Sig.mat(2,i)=i;
 	 	Sig.mat(3,i)=0;
-	 	for(int j=0;j<line;j++)
+	 	for(int j=1;j<DF.line;j++)
 	 		Sig.mat(3,i)+=DF.mat(j,i);
 	 }
-	 //“¿æ› Ù–‘≥ˆœ÷µƒ∆µ¬ ∂‘ Ù–‘—°‘Ò≈≈–Ú
+	 //‰æùÊçÆÂ±ûÊÄßÂá∫Áé∞ÁöÑÈ¢ëÁéáÂØπÂ±ûÊÄßÈÄâÊã©ÊéíÂ∫è
 	 int index;
 	 MatrixXd temp(3,1);
-	 for(int i=0;i<row;i++){
+	 for(int i=0;i<DF.row;i++){
 	 	index=i;
-	 	for(int j=i+1;j<row;j++){
+	 	for(int j=i+1;j<DF.row;j++){
 	 		if(Sig.mat(3,index)<Sig.mat(3,j))
 	 			index=j;
 		 }
@@ -24,5 +24,5 @@ void computeSIG(class matrix& Sig,const class matrix& DF){
 		 	Sig.mat.col(index)=Sig.mat.col(i);
 		 	Sig.mat.col(i)=temp;
 		 } 
-	 } 
-} 
+	 }
+}
