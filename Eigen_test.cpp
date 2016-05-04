@@ -1,3 +1,4 @@
+//这个程序主要用以Eigen矩阵的功能使用测试，因为刚开始不习惯row表示行col表示列，特意自己写了个类，用line表示行，row表示列，以更好的完成过渡
 #include <iostream>
 #include <Eigen/Dense>
 using Eigen::MatrixXd;
