@@ -1,7 +1,5 @@
-#include<fstream>
-#include<ctype.h>
+#include <fstream>
 #include <Eigen/Dense>
-#include "matrix.cpp"
 using Eigen::MatrixXd;
 using namespace std;
 /*
@@ -9,7 +7,7 @@ using namespace std;
 输出：一个析取矩阵（以matrix类定义的方式存储） 
 处理： 将析取矩阵读入到内存 
 */
-class matrix& input(char* filename)
+int input(MatrixXd& mat,const char* filename)
 {
 	ifstream fin;
 	fin.open(filename,ios::in);
@@ -19,19 +17,24 @@ class matrix& input(char* filename)
 	}
 	int line=0,row=0;//记录矩阵的行数和列数 
 	fin>>line>>row;//输入析取矩阵的行数和列数
-	class matrix *amat=new matrix(line,row); 
+	mat.resize(line,row); 
+	int max_attr=0;
 	for(int i=0;i<line;i++){
 		for(int j=0;j<row;j++){
-			fin>>amat->mat(i,j);
+			fin>>mat(i,j);
+			if(i==0 && mat(i,j)>max_attr) 
+				max_attr=(int)mat(i,j);
 		}
 	}
 	fin.close();
-	return *amat;
+	return max_attr;
 }
-int main()
-{
-	class matrix amat=input("breast_w_matrix.txt");
-	cout<<"get matrix successfully! \n"<<amat.mat<<endl;
-//	delete &amat;
-	return 0;
-}
+//test code 
+//int main()
+//{
+//	class matrix amat;
+//	const char* temp="breast_w_matrix.txt";
+//	input(amat,temp);
+//	cout<<"get matrix successfully! \n"<<amat.mat<<endl;
+//	return 0;
+//}
