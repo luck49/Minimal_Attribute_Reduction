@@ -1,28 +1,23 @@
-#include<iostream>
-#include"matrix.h"
-using namespace std;
-void computeSIG(class matrix& Sig,const class matrix& DF){
-	 Sig=*(new matrix(3,DF.row));
-	 Sig.mat.row(1)=DF.mat.row(1);//存储DT属性序
-	 for(int i=0;i<Sig.row;i++){//计算出现频率 
-	 	Sig.mat(2,i)=i;
-	 	Sig.mat(3,i)=0;
-	 	for(int j=1;j<DF.line;j++)
-	 		Sig.mat(3,i)+=DF.mat(j,i);
+#include <Eigen/Dense>
+using namespace Eigen;
+void computeSIG(MatrixXd& Sig,MatrixXd& DF){
+	 Sig.row(0)=DF.row(0);//存储DF的属性序
+	 for(int i=0;i<DF.cols();i++){//计算出现频率 
+	 	Sig(1,i)=0;
+	 	for(int j=1;j<DF.rows();j++)
+	 		Sig(1,i)+=DF(j,i);
 	 }
-	 //依据属性出现的频率对属性选择排序
-	 int index;
-	 MatrixXd temp(3,1);
-	 for(int i=0;i<DF.row;i++){
-	 	index=i;
-	 	for(int j=i+1;j<DF.row;j++){
-	 		if(Sig.mat(3,index)<Sig.mat(3,j))
-	 			index=j;
+	 //依据属性出现的频率对属性进行选择排序
+	 int subscript;
+	 for(int i=0;i<Sig.cols();i++){
+	 	subscript=i;
+	 	for(int j=i+1;j<DF.cols();j++){
+	 		if(Sig(1,subscript)<Sig(1,j))
+	 			subscript=j;
 		 }
-		 if(index!=i){
-		 	temp=Sig.mat.col(index);
-		 	Sig.mat.col(index)=Sig.mat.col(i);
-		 	Sig.mat.col(i)=temp;
+		MatrixXd temp=Sig.col(0);
+		 if(subscript!=i){
+			Sig.col(subscript).swap(Sig.col(i));
 		 } 
 	 }
 }
